@@ -1,0 +1,10 @@
+{
+  "eventId": "EVT-INVALID-001",
+  "eventVersion": 1,
+  "orderId": "ORD-INVALID-001",
+  "market": "MX",
+  "currency": "USD",
+  "clientId": "CLI-99821",
+  "items": [],
+  "orderVersion": 1
+}

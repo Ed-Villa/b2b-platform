@@ -1,0 +1,20 @@
+{
+  "eventId": "OUT-001",
+  "eventVersion": 1,
+  "occurredAt": "2026-09-18T15:42:11Z",
+  "sourceEventId": "EVT-MX-001",
+  "sourceEventVersion": 1,
+  "orderId": "ORD-MX-001",
+  "status": "APPROVED",
+  "market": "MX",
+  "currency": "MXN",
+  "totals": {
+    "grossSubtotal": 1836.0,
+    "discount": 25.56,
+    "netSubtotal": 1810.44,
+    "tax": 210.95,
+    "grandTotal": 2021.39
+  },
+  "reason": null,
+  "orderVersion": 1
+}

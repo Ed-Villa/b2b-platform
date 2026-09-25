@@ -1,0 +1,178 @@
+{
+  "type": "object",
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+    },
+    "eventVersion": {
+      "type": "integer",
+      "const": 1,
+      "description": "Schema version for this v1 topic. Unsupported versions are rejected."
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sourceEventId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+    },
+    "sourceEventVersion": {
+      "type": "integer",
+      "const": 1,
+      "description": "Schema version of the source event; not a business revision."
+    },
+    "orderId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+    },
+    "status": {
+      "enum": [
+        "APPROVED",
+        "REJECTED"
+      ]
+    },
+    "market": {
+      "enum": [
+        "MX",
+        "CO",
+        "PE"
+      ]
+    },
+    "currency": {
+      "enum": [
+        "MXN",
+        "COP",
+        "PEN"
+      ]
+    },
+    "totals": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "grossSubtotal": {
+              "type": "number",
+              "minimum": 0
+            },
+            "discount": {
+              "type": "number",
+              "minimum": 0
+            },
+            "netSubtotal": {
+              "type": "number",
+              "minimum": 0
+            },
+            "tax": {
+              "type": "number",
+              "minimum": 0
+            },
+            "grandTotal": {
+              "type": "number",
+              "minimum": 0
+            }
+          },
+          "required": [
+            "grossSubtotal",
+            "discount",
+            "netSubtotal",
+            "tax",
+            "grandTotal"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "orderVersion": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Producer-assigned monotonic business revision of a complete snapshot. Gaps are allowed; this is not the schema version."
+    }
+  },
+  "required": [
+    "eventId",
+    "eventVersion",
+    "occurredAt",
+    "sourceEventId",
+    "sourceEventVersion",
+    "orderId",
+    "status",
+    "market",
+    "currency",
+    "totals",
+    "reason",
+    "orderVersion"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "APPROVED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "totals": {
+            "type": "object",
+            "properties": {
+              "grossSubtotal": {
+                "type": "number",
+                "minimum": 0
+              },
+              "discount": {
+                "type": "number",
+                "minimum": 0
+              },
+              "netSubtotal": {
+                "type": "number",
+                "minimum": 0
+              },
+              "tax": {
+                "type": "number",
+                "minimum": 0
+              },
+              "grandTotal": {
+                "type": "number",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "grossSubtotal",
+              "discount",
+              "netSubtotal",
+              "tax",
+              "grandTotal"
+            ]
+          },
+          "reason": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "totals": {
+            "type": "null"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  ],
+  "description": "eventVersion versions the event schema; orderVersion orders updates of the same orderId. Topic suffix .v1 identifies schema v1. Events carry complete order state (processed events carry the complete result), not deltas. Positive orderVersion may skip revisions; consumers must not overwrite newer state with older revisions."
+}

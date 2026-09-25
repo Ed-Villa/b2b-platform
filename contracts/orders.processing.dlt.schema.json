@@ -1,0 +1,88 @@
+{
+  "type": "object",
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+    },
+    "sourceEventId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "orderId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "category": {
+      "enum": [
+        "VALIDATION",
+        "VERSION_CONFLICT",
+        "EXTERNAL_TECHNICAL"
+      ]
+    },
+    "cause": {
+      "type": "string"
+    },
+    "attempts": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "component": {
+      "const": "order-processor"
+    },
+    "originalMessage": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "sourceTopic": {
+      "type": "string"
+    },
+    "sourcePartition": {
+      "type": "integer"
+    },
+    "sourceOffset": {
+      "type": "integer"
+    },
+    "sourceEventVersion": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Schema version recovered from the original event."
+    },
+    "orderVersion": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Order business revision recovered from the original event."
+    }
+  },
+  "required": [
+    "eventId",
+    "sourceEventId",
+    "orderId",
+    "category",
+    "cause",
+    "attempts",
+    "timestamp",
+    "component",
+    "originalMessage",
+    "sourceTopic",
+    "sourcePartition",
+    "sourceOffset",
+    "sourceEventVersion",
+    "orderVersion"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema"
+}

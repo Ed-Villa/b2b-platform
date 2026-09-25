@@ -1,0 +1,144 @@
+{
+  "type": "object",
+  "properties": {
+    "eventId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+    },
+    "eventVersion": {
+      "type": "integer",
+      "const": 1,
+      "description": "Schema version for this v1 topic. Unsupported versions are rejected."
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "orderId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+    },
+    "market": {
+      "enum": [
+        "MX",
+        "CO",
+        "PE"
+      ]
+    },
+    "currency": {
+      "enum": [
+        "MXN",
+        "COP",
+        "PEN"
+      ]
+    },
+    "clientId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{1,128}$"
+    },
+    "channel": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_-]{1,128}$"
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+          },
+          "unitPrice": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1000000000,
+            "multipleOf": 1e-06
+          }
+        },
+        "required": [
+          "productId",
+          "quantity",
+          "unitPrice"
+        ]
+      }
+    },
+    "orderVersion": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Producer-assigned monotonic business revision of a complete snapshot. Gaps are allowed; this is not the schema version."
+    }
+  },
+  "required": [
+    "eventId",
+    "eventVersion",
+    "occurredAt",
+    "orderId",
+    "market",
+    "currency",
+    "clientId",
+    "items",
+    "orderVersion"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "market": {
+            "const": "MX"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "currency": {
+            "const": "MXN"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "market": {
+            "const": "CO"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "currency": {
+            "const": "COP"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "market": {
+            "const": "PE"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "currency": {
+            "const": "PEN"
+          }
+        }
+      }
+    }
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "eventVersion versions the event schema; orderVersion orders updates of the same orderId. Topic suffix .v1 identifies schema v1. Events carry complete order state (processed events carry the complete result), not deltas. Positive orderVersion may skip revisions; consumers must not overwrite newer state with older revisions."
+}

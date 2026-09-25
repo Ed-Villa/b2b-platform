@@ -1,0 +1,18 @@
+{
+  "eventId": "EVT-MX-002",
+  "eventVersion": 1,
+  "occurredAt": "2026-09-18T15:42:10Z",
+  "orderId": "ORD-MX-002",
+  "market": "MX",
+  "currency": "MXN",
+  "clientId": "CLI-MX-2",
+  "channel": "C1",
+  "items": [
+    {
+      "productId": "PRD-001",
+      "quantity": 1,
+      "unitPrice": 35.5
+    }
+  ],
+  "orderVersion": 1
+}
