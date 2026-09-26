@@ -6,7 +6,8 @@ La clave de negocio es orderId y su revisión es orderVersion, asignada por el p
 describe el esquema; el sufijo .v1 identifica ese contrato en Kafka. La salida conserva la revisión de la orden
 y usa eventVersion=1.
 
-Contexto: Mongo y Kafka no comparten una transacción local.
+Contexto: Mongo y Kafka no comparten una transacción local. La elección de Mongo como almacén, con sus
+alternativas y costos, se registra en el [ADR 003](003-persistencia.md); aquí se asume dada.
 Alternativas: guardar/publicar directamente, transacciones Kafka, outbox.
 Decisión: transacción Mongo replica set registra inbox, revisión, resultado y outbox. Commit de offset después. Publicar
 outbox antes de marcar enviado, identificador estable.

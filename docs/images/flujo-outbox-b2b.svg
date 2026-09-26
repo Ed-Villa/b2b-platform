@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1440" viewBox="0 0 1800 1440"><rect width="100%" height="100%" fill="#f4f7fb"/>
+<text x="50" y="72" font-family="Segoe UI,Arial,sans-serif" font-size="42" fill="#142b45" font-weight="700">Flujo de publicación de outbox</text>
+<text x="52" y="114" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#52677d" font-weight="400">MongoDB conserva la salida pendiente · Kafka confirma el envío · MongoDB registra sent</text>
+<rect x="650" y="155" width="500" height="100" rx="18" fill="#eaf1ff" stroke="#b1c7f5" stroke-width="2"/>
+<text x="672" y="194" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#142b45" font-weight="700">Iniciar ciclo del publicador</text>
+<text x="672" y="230.0" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">OutboxPublisher · pausa entre ciclos: 1 s</text>
+<polyline points="900,255 900,295" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="900,295 893.7674679981453,283.5914266954252 906.2325320018547,283.5914266954251" fill="#2563eb"/>
+<rect x="650" y="295" width="500" height="100" rx="18" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="672" y="334" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#142b45" font-weight="700">Leer pendientes de MongoDB</text>
+<text x="672" y="370.0" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">majority · no enviadas/aparcadas · intento vencido</text>
+<polyline points="900,395 900,435" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="900,435 893.7674679981453,423.5914266954252 906.2325320018547,423.5914266954251" fill="#2563eb"/>
+<polygon points="900,435 1150,495 900,555 650,495" fill="#eaf1ff" stroke="#9bb8ec" stroke-width="2"/>
+<text x="725" y="496" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#2563eb" font-weight="700">¿Hay una salida pendiente?</text>
+<rect x="70" y="430" width="420" height="130" rx="18" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="92" y="469" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#142b45" font-weight="700">Esperar siguiente ciclo</text>
+<text x="92" y="505" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Sin mensajes: no publicar</text>
+<text x="92" y="533" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Fallo de lectura: registrar y reintentar</text>
+<polyline points="650,495 490,495" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="490,495 501.4085733045748,488.7674679981454 501.4085733045749,501.2325320018546" fill="#2563eb"/>
+<text x="545" y="477" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#2563eb" font-weight="700">No</text>
+<polyline points="280,430 280,205 650,205" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="650,205 638.5914266954252,211.23253200185465 638.5914266954252,198.76746799814535" fill="#2563eb"/>
+<polyline points="900,555 900,605" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="900,605 893.7674679981453,593.5914266954252 906.2325320018547,593.5914266954252" fill="#2563eb"/>
+<text x="925" y="587" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#2563eb" font-weight="700">Sí</text>
+<rect x="650" y="605" width="500" height="135" rx="18" fill="#eaf1ff" stroke="#b1c7f5" stroke-width="2"/>
+<text x="672" y="644" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#142b45" font-weight="700">Enviar y esperar confirmación</text>
+<text x="672" y="680.0" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Usar tópico, key y payload ya persistidos</text>
+<text x="672" y="702.0" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">eventId estable para deduplicar</text>
+<text x="672" y="724.0" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">orderVersion para comparar snapshots</text>
+<rect x="1260" y="580" width="490" height="180" rx="18" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="1282" y="619" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#142b45" font-weight="700">Tópico según el resultado</text>
+<text x="1282" y="655.0" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">orders.processed.v1</text>
+<text x="1282" y="677.25" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Aprobado o rechazado</text>
+<text x="1282" y="699.5" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400"></text>
+<text x="1282" y="721.75" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">orders.processing.dlt</text>
+<text x="1282" y="744.0" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Inválido, conflicto o fallo técnico</text>
+<polyline points="1150,670 1260,670" fill="none" stroke="#087f8c" stroke-width="3"/>
+<polygon points="1260,670 1248.591426695425,676.2325320018547 1248.591426695425,663.7674679981453" fill="#087f8c"/>
+<polyline points="900,740 900,785" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="900,785 893.7674679981453,773.5914266954252 906.2325320018547,773.5914266954252" fill="#2563eb"/>
+<polygon points="900,785 1150,845 900,905 650,845" fill="#eaf1ff" stroke="#9bb8ec" stroke-width="2"/>
+<text x="725" y="846" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#2563eb" font-weight="700">¿Kafka confirmó el envío?</text>
+<rect x="70" y="775" width="420" height="165" rx="18" fill="#fff5e9" stroke="#e2c39a" stroke-width="2"/>
+<text x="92" y="814" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#142b45" font-weight="700">Registrar fallo de envío</text>
+<text x="92" y="850.0" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">No marcar sent · contador por salida</text>
+<text x="92" y="874.6666666666666" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Aplazar siguiente intento: 5 s</text>
+<text x="92" y="899.3333333333334" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Tamaño/serialización: aparcar tras 3 fallos</text>
+<text x="92" y="924.0" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Conservar payload; continuar otras salidas</text>
+<polyline points="650,845 490,845" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="490,845 501.4085733045748,838.7674679981453 501.4085733045749,851.2325320018547" fill="#2563eb"/>
+<text x="545" y="827" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#2563eb" font-weight="700">No</text>
+<polyline points="490,860 580,860 580,1300 650,1300" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="650,1300 638.5914266954252,1306.2325320018547 638.5914266954252,1293.7674679981453" fill="#2563eb"/>
+<polyline points="900,905 900,950" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="900,950 893.7674679981453,938.5914266954252 906.2325320018547,938.5914266954252" fill="#2563eb"/>
+<text x="925" y="937" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#2563eb" font-weight="700">Sí</text>
+<rect x="650" y="950" width="500" height="100" rx="18" fill="#e8f7f5" stroke="#91cdc5" stroke-width="2"/>
+<text x="672" y="989" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#142b45" font-weight="700">Marcar sent = true en MongoDB</text>
+<text x="672" y="1025.0" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Guardar sentAt después de publicar</text>
+<polyline points="900,1050 900,1090" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="900,1090 893.7674679981453,1078.591426695425 906.2325320018547,1078.591426695425" fill="#2563eb"/>
+<polygon points="900,1090 1150,1150 900,1210 650,1150" fill="#eaf1ff" stroke="#9bb8ec" stroke-width="2"/>
+<text x="725" y="1151" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#2563eb" font-weight="700">¿Marcado confirmado?</text>
+<rect x="70" y="1070" width="420" height="165" rx="18" fill="#fff5e9" stroke="#e2c39a" stroke-width="2"/>
+<text x="92" y="1109" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#142b45" font-weight="700">Publicación puede repetirse</text>
+<text x="92" y="1143.0" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#52677d" font-weight="400">Caída / error después del envío:</text>
+<text x="92" y="1168.3333333333333" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#52677d" font-weight="400">volver a consultar en el siguiente ciclo</text>
+<text x="92" y="1193.6666666666667" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#52677d" font-weight="400">Si sigue pendiente, reenviar el mismo eventId</text>
+<text x="92" y="1219.0" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#52677d" font-weight="400">El consumidor debe deduplicar</text>
+<polyline points="650,1150 490,1150" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="490,1150 501.4085733045748,1143.7674679981453 501.4085733045749,1156.2325320018547" fill="#2563eb"/>
+<text x="545" y="1130" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#2563eb" font-weight="700">No</text>
+<polyline points="70,1150 35,1150 35,205 280,205" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="280,205 268.5914266954251,211.23253200185465 268.5914266954251,198.76746799814535" fill="#2563eb"/>
+<polyline points="900,1210 900,1250" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="900,1250 893.7674679981453,1238.591426695425 906.2325320018547,1238.591426695425" fill="#2563eb"/>
+<text x="925" y="1240" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#2563eb" font-weight="700">Sí</text>
+<rect x="650" y="1250" width="500" height="100" rx="18" fill="#e8f7f5" stroke="#91cdc5" stroke-width="2"/>
+<text x="672" y="1289" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#142b45" font-weight="700">Continuar con la siguiente salida</text>
+<text x="672" y="1325.0" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Al terminar el lote, esperar el siguiente ciclo</text>
+<rect x="1260" y="980" width="490" height="220" rx="18" fill="#fff5e9" stroke="#e2c39a" stroke-width="2"/>
+<text x="1282" y="1019" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#142b45" font-weight="700">Garantía de entrega</text>
+<text x="1282" y="1055.0" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Al menos una vez; no exactly-once</text>
+<text x="1282" y="1080.8" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Un envío repetido conserva eventId</text>
+<text x="1282" y="1106.6" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">La revisión de la orden no cambia</text>
+<text x="1282" y="1132.4" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400"></text>
+<text x="1282" y="1158.2" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Varias instancias pueden duplicar envíos</text>
+<text x="1282" y="1184.0" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">y publicar revisiones fuera de orden</text>
+<text x="70" y="1403" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#52677d" font-weight="400">El commit del offset de entrada no espera esta publicación: la salida ya quedó persistida en la outbox.</text>
+</svg>

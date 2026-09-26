@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1320" viewBox="0 0 1800 1320"><rect width="100%" height="100%" fill="#f4f7fb"/>
+<text x="50" y="79" font-family="Segoe UI,Arial,sans-serif" font-size="44" fill="#142b45" font-weight="700">Plataforma B2B de pedidos</text>
+<text x="52" y="118" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#52677d" font-weight="400">Arquitectura implementada · Java / Spring Boot + Go + NestJS · ejecución local con Docker Compose</text>
+<rect x="50" y="180" width="360" height="150" rx="18" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="75" y="226" font-family="Segoe UI,Arial,sans-serif" font-size="26" fill="#142b45" font-weight="700">Productor de pedidos</text>
+<text x="75" y="266" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#52677d" font-weight="400">Sistema externo / script de ejemplo</text>
+<text x="75" y="296" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#52677d" font-weight="400">Publica con key = orderId</text>
+<polyline points="230,330 230,420" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="230,420 223.76746799814535,408.5914266954252 236.23253200185465,408.5914266954251" fill="#2563eb"/>
+<text x="250" y="375" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#2563eb" font-weight="400">Evento</text>
+<rect x="50" y="420" width="360" height="180" rx="18" fill="#eaf1ff" stroke="#b1c7f5" stroke-width="2"/>
+<text x="75" y="469" font-family="Segoe UI,Arial,sans-serif" font-size="26" fill="#2563eb" font-weight="700">Kafka · entrada</text>
+<text x="75" y="514" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#142b45" font-weight="700">orders.created.v1</text>
+<text x="75" y="555" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Tres particiones</text>
+<text x="75" y="585" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Entrega al menos una vez</text>
+<polyline points="410,495 470,495 470,335 550,335" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="550,335 538.5914266954252,341.2325320018546 538.5914266954252,328.7674679981454" fill="#2563eb"/>
+<text x="52" y="658" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#142b45" font-weight="700">Origen y contrato</text>
+<text x="52" y="699" font-family="Segoe UI,Arial,sans-serif" font-size="19" fill="#52677d" font-weight="400">eventVersion = versión del esquema</text>
+<text x="52" y="731" font-family="Segoe UI,Arial,sans-serif" font-size="19" fill="#52677d" font-weight="400">orderVersion = revisión de la orden</text>
+<text x="52" y="763" font-family="Segoe UI,Arial,sans-serif" font-size="19" fill="#52677d" font-weight="400">Productor asigna la revisión creciente</text>
+<text x="52" y="795" font-family="Segoe UI,Arial,sans-serif" font-size="19" fill="#52677d" font-weight="400">Tópico .v1 = esquema v1</text>
+<text x="52" y="851" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#2563eb" font-weight="700">Versiones independientes</text>
+<text x="52" y="884" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#52677d" font-weight="400">eventVersion = 1 · orderVersion = 2</text>
+<text x="52" y="914" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#52677d" font-weight="400">Tópico: orders.created.v1</text>
+<rect x="510" y="180" width="670" height="620" rx="24" fill="#eef4ff" stroke="#9bb8ec" stroke-width="2"/>
+<text x="540" y="230" font-family="Segoe UI,Arial,sans-serif" font-size="30" fill="#2563eb" font-weight="700">order-processor</text>
+<text x="845" y="229" font-family="Segoe UI,Arial,sans-serif" font-size="22" fill="#52677d" font-weight="400">Java 21 · Spring Boot 3</text>
+<rect x="550" y="265" width="250" height="150" rx="18" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="568" y="307" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#142b45" font-weight="700">Entrada Kafka</text>
+<text x="568" y="345" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">OrderListener</text>
+<text x="568" y="371" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">DTO → dominio</text>
+<text x="568" y="397" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Validación del evento</text>
+<rect x="850" y="265" width="285" height="150" rx="18" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="868" y="307" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#142b45" font-weight="700">Caso de uso</text>
+<text x="868" y="344" font-family="Segoe UI,Arial,sans-serif" font-size="19" fill="#52677d" font-weight="400">ProcessOrder: cliente primero</text>
+<text x="868" y="370" font-family="Segoe UI,Arial,sans-serif" font-size="19" fill="#52677d" font-weight="400">Productos: virtual threads</text>
+<text x="868" y="396" font-family="Segoe UI,Arial,sans-serif" font-size="19" fill="#52677d" font-weight="400">Semáforo compartido: 20</text>
+<polyline points="800,335 850,335" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="850,335 838.5914266954252,341.2325320018546 838.5914266954252,328.7674679981454" fill="#2563eb"/>
+<rect x="550" y="470" width="250" height="130" rx="18" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="568" y="509" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#142b45" font-weight="700">Dominio puro</text>
+<text x="568" y="544" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Rules + records</text>
+<text x="568" y="568" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Elegibilidad y cálculos</text>
+<text x="568" y="592" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">BigDecimal · HALF_UP</text>
+<polyline points="975,415 975,440 675,440 675,470" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="675,470 668.7674679981453,458.5914266954252 681.2325320018547,458.5914266954251" fill="#2563eb"/>
+<text x="845" y="499" font-family="Segoe UI,Arial,sans-serif" font-size="22" fill="#142b45" font-weight="700">Puertos y adaptadores</text>
+<text x="845" y="533" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#52677d" font-weight="400">HTTP: timeout + retry</text>
+<text x="845" y="560" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#52677d" font-weight="400">Mongo: persistencia atómica</text>
+<text x="845" y="587" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#52677d" font-weight="400">Sin infraestructura en el dominio</text>
+<rect x="550" y="640" width="250" height="110" rx="18" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="568" y="676" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#142b45" font-weight="700">Persistencia</text>
+<text x="568" y="710" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Puerto Store</text>
+<text x="568" y="735" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Adaptador MongoStore</text>
+<polyline points="850,400 825,400 825,695 800,695" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="800,695 811.4085733045748,688.7674679981453 811.4085733045748,701.2325320018547" fill="#2563eb"/>
+<rect x="850" y="640" width="285" height="110" rx="18" fill="#e8f7f5" stroke="#91cdc5" stroke-width="2"/>
+<text x="868" y="676" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#087f8c" font-weight="700">Publicador outbox</text>
+<text x="868" y="709" font-family="Segoe UI,Arial,sans-serif" font-size="19" fill="#52677d" font-weight="400">OutboxPublisher</text>
+<text x="868" y="734" font-family="Segoe UI,Arial,sans-serif" font-size="19" fill="#52677d" font-weight="400">Publica y luego marca sent</text>
+<rect x="1290" y="190" width="460" height="160" rx="18" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="1315" y="235" font-family="Segoe UI,Arial,sans-serif" font-size="27" fill="#142b45" font-weight="700">Clients API</text>
+<text x="1315" y="269" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#087f8c" font-weight="400">NestJS · TypeScript estricto</text>
+<text x="1315" y="305" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">GET /clients/{clientId}</text>
+<text x="1315" y="332" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Estado, segmento, régimen y mercado</text>
+<polyline points="1135,310 1220,310 1220,265 1290,265" fill="none" stroke="#087f8c" stroke-width="3"/>
+<polygon points="1290,265 1278.591426695425,271.2325320018546 1278.591426695425,258.7674679981454" fill="#087f8c"/>
+<text x="1200" y="242" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#087f8c" font-weight="400">HTTP</text>
+<rect x="1290" y="390" width="460" height="160" rx="18" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="1315" y="435" font-family="Segoe UI,Arial,sans-serif" font-size="27" fill="#142b45" font-weight="700">Products API</text>
+<text x="1315" y="469" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#087f8c" font-weight="400">Go · net/http · context.Context</text>
+<text x="1315" y="505" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">GET /products/{productId}?market=...</text>
+<text x="1315" y="532" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">Estado y categoría fiscal por mercado</text>
+<polyline points="1135,375 1220,375 1220,465 1290,465" fill="none" stroke="#087f8c" stroke-width="3"/>
+<polygon points="1290,465 1278.591426695425,471.2325320018546 1278.591426695425,458.7674679981454" fill="#087f8c"/>
+<text x="1300" y="584" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#52677d" font-weight="400">Ambas APIs: semillas en memoria y healthcheck</text>
+<rect x="1290" y="640" width="460" height="230" rx="18" fill="#fff5e9" stroke="#e2c39a" stroke-width="2"/>
+<text x="1315" y="685" font-family="Segoe UI,Arial,sans-serif" font-size="27" fill="#b66b18" font-weight="700">Kafka · salidas</text>
+<text x="1315" y="729" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#142b45" font-weight="700">orders.processed.v1</text>
+<text x="1315" y="761" font-family="Segoe UI,Arial,sans-serif" font-size="20" fill="#52677d" font-weight="400">APPROVED / REJECTED</text>
+<text x="1315" y="806" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#142b45" font-weight="700">orders.processing.dlt</text>
+<text x="1315" y="838" font-family="Segoe UI,Arial,sans-serif" font-size="19" fill="#52677d" font-weight="400">Inválidos, conflictos y fallos técnicos</text>
+<polyline points="1135,695 1290,695" fill="none" stroke="#087f8c" stroke-width="3"/>
+<polygon points="1290,695 1278.591426695425,701.2325320018547 1278.591426695425,688.7674679981453" fill="#087f8c"/>
+<text x="1185" y="674" font-family="Segoe UI,Arial,sans-serif" font-size="19" fill="#087f8c" font-weight="400">Envío</text>
+<rect x="510" y="930" width="670" height="210" rx="24" fill="#e8f7f5" stroke="#91cdc5" stroke-width="2"/>
+<text x="540" y="979" font-family="Segoe UI,Arial,sans-serif" font-size="29" fill="#087f8c" font-weight="700">MongoDB · replica set</text>
+<text x="540" y="1019" font-family="Segoe UI,Arial,sans-serif" font-size="22" fill="#142b45" font-weight="700">Una transacción: inbox + revisión + pedido + outbox</text>
+<text x="540" y="1061" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#52677d" font-weight="400">Transacción: snapshot + majority · lectura: majority</text>
+<text x="540" y="1093" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#52677d" font-weight="400">Snapshots por revisión · importes Decimal128</text>
+<polyline points="675,750 675,930" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="675,930 668.7674679981453,918.5914266954252 681.2325320018547,918.5914266954252" fill="#2563eb"/>
+<text x="515" y="853" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#2563eb" font-weight="700">Commit atómico</text>
+<polyline points="995,930 995,750" fill="none" stroke="#087f8c" stroke-width="3"/>
+<polygon points="995,750 1001.2325320018547,761.4085733045748 988.7674679981453,761.4085733045748" fill="#087f8c"/>
+<text x="1010" y="850" font-family="Segoe UI,Arial,sans-serif" font-size="19" fill="#087f8c" font-weight="400">Lee pendientes</text>
+<text x="1010" y="880" font-family="Segoe UI,Arial,sans-serif" font-size="19" fill="#087f8c" font-weight="400">y marca enviados</text>
+<rect x="1290" y="930" width="460" height="210" rx="18" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="1315" y="975" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#142b45" font-weight="700">Resultado persistido</text>
+<text x="1315" y="1017" font-family="Segoe UI,Arial,sans-serif" font-size="22" fill="#52677d" font-weight="400">APPROVED</text>
+<text x="1315" y="1051" font-family="Segoe UI,Arial,sans-serif" font-size="22" fill="#52677d" font-weight="400">REJECTED</text>
+<text x="1315" y="1085" font-family="Segoe UI,Arial,sans-serif" font-size="22" fill="#52677d" font-weight="400">TECHNICAL_FAILURE</text>
+<rect x="50" y="1190" width="540" height="95" rx="18" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="70" y="1225" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#2563eb" font-weight="700">1 · Offset después de persistir</text>
+<text x="70" y="1260" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#52677d" font-weight="400">Si Mongo falla, el mensaje queda para reentrega.</text>
+<rect x="615" y="1190" width="565" height="95" rx="18" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="635" y="1225" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#2563eb" font-weight="700">2 · Efectos idempotentes</text>
+<text x="635" y="1259" font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#52677d" font-weight="400">Duplicados no recalculan; versiones viejas no pisan nuevas.</text>
+<rect x="1205" y="1190" width="545" height="95" rx="18" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="1225" y="1225" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#087f8c" font-weight="700">3 · Publicación al menos una vez</text>
+<text x="1225" y="1260" font-family="Segoe UI,Arial,sans-serif" font-size="18" fill="#52677d" font-weight="400">eventId estable; consumidores deben deduplicar.</text>
+<polyline points="410,495 470,495 470,335 550,335" fill="none" stroke="#2563eb" stroke-width="3"/>
+<polygon points="550,335 538.5914266954252,341.2325320018546 538.5914266954252,328.7674679981454" fill="#2563eb"/>
+</svg>

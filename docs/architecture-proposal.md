@@ -2,8 +2,7 @@
 
 Esta es la revisión vigente de la propuesta inicial. Incorpora la aclaración posterior del evaluador sobre la versión
 del esquema y la decisión de añadir `orderVersion`; no representa una copia intacta del documento previo a la
-implementación. Los cambios y la evidencia se registran en [implementation-notes.md](implementation-notes.md) y
-[verification.md](verification.md).
+implementación. Los cambios se registran en [implementation-notes.md](implementation-notes.md)
 
 ## Problema y alcance
 
@@ -13,6 +12,7 @@ implementación. Los cambios y la evidencia se registran en [implementation-note
 - Usar Kafka para transportar eventos y MongoDB como replica set para mantener resultados, inbox, revisiones y outbox.
 - Mantener semillas en memoria en las APIs, detrás de repositorios sustituibles, y ejecutar el conjunto con Docker
   Compose.
+- Alternativas de motor de persistencia y costos aceptados: [ADR de persistencia](adr/003-persistencia.md).
 
 ## Supuestos y contratos
 
@@ -67,7 +67,8 @@ implementación. Los cambios y la evidencia se registran en [implementation-note
 
 ## Flujo principal y errores
 
-- Flujo principal: Kafka → validación → detección de duplicado conocido → cliente válido → productos concurrentes → cálculo → transacción
+- Flujo principal: Kafka → validación → detección de duplicado conocido → cliente válido → productos concurrentes →
+  cálculo → transacción
   inbox/revisión/resultado/outbox → confirmación del offset. La transacción vuelve a comprobar identidad y revisión.
 - Un cliente no elegible permite omitir las consultas de productos. Un recurso inexistente (`404`), cliente bloqueado,
   mercado incorrecto o producto descontinuado produce `REJECTED`, con razón explícita y salida en `orders.processed.v1`.
@@ -147,8 +148,7 @@ implementación. Los cambios y la evidencia se registran en [implementation-note
   rollback antes del commit y caída después de publicar pero antes de marcar la outbox.
 - Contratos y recorrido completo: validar ejemplos y respuestas; comprobar evento de entrada → resultado MongoDB →
   salida
-  o DLT. Distinguir esquema y revisión en las aserciones. Registrar resultados reales
-  en [verification.md](verification.md).
+  o DLT. Distinguir esquema y revisión en las aserciones.
 
 ## Alternativas descartadas y motivos
 
