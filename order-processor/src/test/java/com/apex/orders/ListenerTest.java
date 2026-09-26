@@ -16,6 +16,41 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class ListenerTest {
+    @ParameterizedTest
+    @ValueSource(strings = {"numeric-id", "boolean-id", "numeric-date", "trailing-json", "duplicate-key"})
+    void malformedWireTypesNeverReachProcessing(String mutation) throws Exception {
+        Store store = mock(Store.class);
+        Acknowledgment ack = mock(Acknowledgment.class);
+        String raw = RulesTest.eventJson("E", 1);
+        raw = switch (mutation) {
+            case "numeric-id" -> raw.replace("\"eventId\":\"E\"", "\"eventId\":123");
+            case "boolean-id" -> raw.replace("\"eventId\":\"E\"", "\"eventId\":true");
+            case "numeric-date" -> raw.replaceAll("\"occurredAt\":\"[^\"]+\"", "\"occurredAt\":123");
+            case "trailing-json" -> raw + " {}";
+            case "duplicate-key" -> raw.replace("\"eventId\":\"E\"", "\"eventId\":\"OTHER\",\"eventId\":\"E\"");
+            default -> throw new IllegalArgumentException(mutation);
+        };
+        ProcessOrder processor = mock(ProcessOrder.class);
+        new OrderListener(Json.mapper(), processor, store).receive(new ConsumerRecord<>("orders.created.v1", 0, 1, "O", raw), ack);
+        verifyNoInteractions(processor);
+        var sequence = inOrder(store, ack);
+        sequence.verify(store).invalid(any(), nullable(String.class), nullable(String.class), eq("INVALID_INPUT"));
+        sequence.verify(ack).acknowledge();
+        verify(store, never()).save(any(), any(), any(), anyInt());
+    }
+
+    @Test
+    void invalidStorageFailureDoesNotAcknowledge() {
+        Store store = mock(Store.class);
+        Acknowledgment ack = mock(Acknowledgment.class);
+        doThrow(new IllegalStateException("mongo unavailable")).when(store)
+                .invalid(any(), nullable(String.class), nullable(String.class), anyString());
+        var listener = new OrderListener(Json.mapper(), null, store);
+        assertThrows(IllegalStateException.class, () -> listener.receive(
+                new ConsumerRecord<>("orders.created.v1", 0, 1, "O", "{}"), ack));
+        verifyNoInteractions(ack);
+    }
+
     @Test
     void unsupportedSchemaNeverProcessesOrder() throws Exception {
         Store store = mock(Store.class);

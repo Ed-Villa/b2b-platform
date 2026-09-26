@@ -24,7 +24,7 @@ class HttpCatalogTest {
         calls = new AtomicInteger();
         server = HttpServer.create(new InetSocketAddress(0), 0);
         String url = "http://localhost:" + server.getAddress().getPort();
-        catalog = new HttpCatalog(Json.mapper(), url, url, Duration.ofSeconds(1), Duration.ofMillis(100), 0, 0);
+        catalog = new HttpCatalog(Json.mapper(), url, url, Duration.ofSeconds(1), Duration.ofSeconds(2), 0, 0);
     }
 
     void endpoint(int failures, int status, String body, long delay) {
@@ -96,6 +96,8 @@ class HttpCatalogTest {
 
     @Test
     void timesOut() {
+        String url = "http://localhost:" + server.getAddress().getPort();
+        catalog = new HttpCatalog(Json.mapper(), url, url, Duration.ofSeconds(1), Duration.ofMillis(100), 0, 0);
         endpoint(0, 200, "{}", 200);
         assertEquals(3, assertThrows(ExternalFailure.class, () -> catalog.client(RulesTest.order("E", 1))).attempts);
     }

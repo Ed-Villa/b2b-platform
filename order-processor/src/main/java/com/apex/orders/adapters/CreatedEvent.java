@@ -13,7 +13,7 @@ import java.util.List;
 public record CreatedEvent(String eventId,
                            long eventVersion,
                            long orderVersion,
-                           Instant occurredAt,
+                           String occurredAt,
                            String orderId,
                            String market,
                            String currency,
@@ -22,7 +22,7 @@ public record CreatedEvent(String eventId,
                            List<ItemDto> items) {
     public Order toDomain() {
         if (eventVersion != 1) throw new IllegalArgumentException("UNSUPPORTED_SCHEMA_VERSION");
-        return new Order(eventId, orderVersion, occurredAt, orderId, market, currency, clientId, channel,
+        return new Order(eventId, orderVersion, occurredAt == null ? null : Instant.parse(occurredAt), orderId, market, currency, clientId, channel,
                 items == null ? null : items.stream().map(item -> item == null ? null : new Item(item.productId(), item.quantity(), item.unitPrice())).toList());
     }
 
