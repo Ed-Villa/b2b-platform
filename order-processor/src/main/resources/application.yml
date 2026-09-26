@@ -1,0 +1,42 @@
+spring:
+  main:
+    web-application-type: none
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/b2b?replicaSet=rs0}
+      database: ${MONGODB_DATABASE:b2b}
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    consumer:
+      group-id: order-processor-v1
+      enable-auto-commit: false
+      auto-offset-reset: earliest
+      max-poll-records: 1
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        max.poll.interval.ms: 1800000
+    listener:
+      ack-mode: manual_immediate
+      concurrency: ${WORKER_CONCURRENCY:3}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      acks: all
+      properties:
+        enable.idempotence: true
+        delivery.timeout.ms: 10000
+        request.timeout.ms: 5000
+        max.block.ms: 5000
+providers:
+  products-concurrency: ${PRODUCTS_CONCURRENCY:20}
+  clients: ${CLIENTS_URL:http://localhost:3000}
+  products: ${PRODUCTS_URL:http://localhost:8081}
+  connect-ms: ${HTTP_CONNECT_MS:1000}
+  response-ms: ${HTTP_RESPONSE_MS:2000}
+  backoff-ms: ${HTTP_BACKOFF_MS:200}
+  retry-after-max-ms: ${HTTP_RETRY_AFTER_MAX_MS:2000}
+outbox:
+  max-permanent-failures: ${OUTBOX_MAX_PERMANENT_FAILURES:3}
+  retry-delay-ms: ${OUTBOX_RETRY_DELAY_MS:5000}
+  delay-ms: ${OUTBOX_DELAY_MS:1000}
