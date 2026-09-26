@@ -135,3 +135,28 @@ Otras notas:
   `eventId` nuevo con una versión más alta.
 - No hay limpieza automática del inbox/outbox, ni métricas, pruebas de carga, caché o interfaz gráfica.
 - El límite de consultas de productos es por instancia y solo se lee al arrancar. Para cambiarlo hay que reiniciar.
+
+## Uso de IA
+
+Durante el desarrollo se usaron herramientas de inteligencia artificial como apoyo. Esta tabla resume en qué se usó cada
+una:
+
+| Herramienta            | Uso                                                                                        |
+|------------------------|--------------------------------------------------------------------------------------------|
+| Codex/Astra 6          | Generación de código fuente, pruebas automatizadas, workflow de CI y scripts de prueba     |
+| Claude Sonnet 5        | Generación de imágenes y diagramas para documentar el sistema, a partir de prompts propios |
+| Asistente de redacción | Redacción de la documentación, corrección de estilo y gramática, y ejemplos de uso         |
+
+### Revisión manual
+
+Todo el código generado con IA se revisó y se adaptó para asegurar su calidad, que fuera coherente con la arquitectura y
+que cumpliera los requisitos. Se revisaron con más cuidado estas partes, porque es donde es más fácil cometer errores
+sutiles de negocio o de consistencia:
+
+- **Idempotencia y concurrencia en `order-processor`:** índices únicos y condiciones atómicas en las actualizaciones.
+- **Cálculo de importes:** impuestos y descuentos por cada línea del pedido.
+- **Llamadas HTTP a Products API y Clients API:** manejo de errores y reintentos.
+
+### Sugerencia rechazada:
+
+![sugerencia-rechazada-AI.png](docs/images/sugerencia-rechazada-AI.png)
