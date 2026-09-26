@@ -1,5 +1,20 @@
 name: verify
-on: [ push, pull_request ]
+
+on:
+  pull_request:
+    branches:
+      - tst
+      - master
+    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - tst
+      - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   backend:
     runs-on: ubuntu-latest
