@@ -51,7 +51,9 @@ public final class ConcurrentProducts {
                 if (ex.getCause() instanceof Error failure) throw failure;
                 throw new IllegalStateException("Product enrichment failed; do not commit", ex.getCause());
             } finally {
-                futures.forEach(future -> future.cancel(true));
+                // Interrupt task threads without marking their futures complete early.
+                // close() must wait for actual task exit, including permit release.
+                executor.shutdownNow();
             }
         }
     }

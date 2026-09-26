@@ -95,20 +95,39 @@ class ConcurrentProductsTest {
         Catalog catalog = mock(Catalog.class); Store store = mock(Store.class);
         when(catalog.client(any())).thenReturn(RulesTest.client());
         var started = new CountDownLatch(1); var stopped = new AtomicBoolean();
+        var cleanupStarted = new CountDownLatch(1);
+        var releaseCleanup = new Semaphore(0);
+        var callerFinished = new CountDownLatch(1);
         when(catalog.product(any(), any())).thenAnswer(call -> {
             started.countDown();
             try { new CountDownLatch(1).await(); return product("P0"); }
-            finally { stopped.set(true); }
+            finally {
+                cleanupStarted.countDown();
+                releaseCleanup.acquireUninterruptibly();
+                stopped.set(true);
+            }
         });
         var processor = new ProcessOrder(catalog, store, new Rules(), 1);
         var failure = new AtomicReference<Throwable>(); var interrupted = new AtomicBoolean();
         Thread caller = Thread.ofPlatform().start(() -> {
             try { processor.process(envelope(), order(10)); }
             catch (Throwable ex) { failure.set(ex); interrupted.set(Thread.currentThread().isInterrupted()); }
+            finally { callerFinished.countDown(); }
         });
-        try { await(started); }
-        finally { caller.interrupt(); caller.join(5000); }
-        assertFalse(caller.isAlive()); assertTrue(stopped.get()); assertTrue(interrupted.get());
+        try {
+            await(started);
+            caller.interrupt();
+            await(cleanupStarted);
+            assertFalse(callerFinished.await(200, TimeUnit.MILLISECONDS),
+                "Processing must wait until interrupted product tasks finish cleanup");
+        } finally {
+            releaseCleanup.release(10);
+            caller.interrupt();
+            caller.join(5000);
+        }
+        assertFalse(caller.isAlive(), "Processing must finish after task cleanup");
+        assertTrue(stopped.get(), "Product tasks must stop before returning");
+        assertTrue(interrupted.get(), "The caller interrupt flag must be preserved");
         assertInstanceOf(IllegalStateException.class, failure.get());
         verify(store, never()).save(any(), any(), any(), anyInt());
         reset(catalog); when(catalog.client(any())).thenReturn(RulesTest.client());

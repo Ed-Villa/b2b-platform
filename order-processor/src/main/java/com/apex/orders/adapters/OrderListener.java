@@ -1,21 +1,30 @@
 package com.apex.orders.adapters;
 
+import com.apex.orders.application.Ports.Envelope;
+import com.apex.orders.application.Ports.Store;
 import com.apex.orders.application.ProcessOrder;
-import com.apex.orders.application.Ports.*;
 import com.apex.orders.domain.Order;
 import com.apex.orders.domain.Rules;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
-import org.slf4j.LoggerFactory;
+
 import java.time.Instant;
 
 public final class OrderListener {
     private final ObjectMapper json;
     private final ProcessOrder processor;
     private final Store store;
-    public OrderListener(ObjectMapper json, ProcessOrder processor, Store store) { this.json = json; this.processor = processor; this.store = store; }
+
+    public OrderListener(ObjectMapper json, ProcessOrder processor, Store store) {
+        this.json = json;
+        this.processor = processor;
+        this.store = store;
+    }
+
     @KafkaListener(topics = "orders.created.v1")
     public void receive(ConsumerRecord<String, String> record, Acknowledgment ack) {
         Envelope env = new Envelope(record.value(), record.topic(), record.partition(), record.offset(), Instant.now());
@@ -37,6 +46,7 @@ public final class OrderListener {
         LoggerFactory.getLogger(OrderListener.class).info("transition=durably_handled orderId={} eventId={}", order.orderId(), order.eventId());
         ack.acknowledge();
     }
+
     private String identifier(JsonNode tree, String field) {
         String value = tree == null ? null : tree.path(field).asText(null);
         return Rules.id(value) ? value : null;
